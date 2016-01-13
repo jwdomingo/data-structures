@@ -11,7 +11,6 @@ var Stack = function() {
   newStack.storage = {};
   newStack.stackSize = 0;
   extend(newStack, stackMethods);
-  console.log("newStack: ", newStack);
   return newStack;
 };
 
