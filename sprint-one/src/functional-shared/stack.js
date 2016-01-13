@@ -1,8 +1,6 @@
-var extend = function(obj){
-  for (var item in obj) {
-    for (var key in item) {
-      obj[key] = item[key];
-    }
+var extend = function(to, from) {
+  for (var key in from) {
+    to[key] = from[key];
   }
 };
 
@@ -10,17 +8,19 @@ var Stack = function() {
   // Hey! Rewrite in the new style. Your code will wind up looking very similar,
   // but try not not reference your old code in writing the new style.
   var newStack = {};
-  var storage = {};
-  var stackSize = 0;
+  newStack.storage = {};
+  newStack.stackSize = 0;
+  extend(newStack, stackMethods);
+  console.log("newStack: ", newStack);
   return newStack;
 };
 
 var stackMethods = {
   push:  function(val){},
   pop:   function(){},
-  size:  function(){
-    return stackSize;
-  }
+  size: function(){
+    return this.stackSize;
+  }  
 };
 
 
