@@ -13,6 +13,21 @@ var Queue = function() {
   };
 
   someInstance.dequeue = function() {
+    var item;
+
+    if (queueSize > 0) {
+      item = storage[0];
+      delete storage[0];
+      queueSize--;
+
+      for (var key in storage) {
+        storage[key - 1] = storage[key];
+      }
+      
+      delete storage[key];
+    }
+
+    return item;
   };
 
   someInstance.size = function() {
