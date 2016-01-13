@@ -20,7 +20,15 @@ var stackMethods = {
     this.storage[this.stackSize] = val;
     this.stackSize++;
   },
-  pop:   function(){},
+  pop:   function(){
+    var aux;
+    if (this.storage[this.stackSize-1]) {
+      aux = this.storage[this.stackSize-1];
+      delete this.storage[this.stackSize-1];
+      this.stackSize--;
+    }
+    return aux;
+  },
   size: function(){
     return this.stackSize;
   }  
