@@ -12,6 +12,15 @@ var Stack = function() {
   };
 
   someInstance.pop = function() {
+    var item;
+
+    if (storage.hasOwnProperty(stackSize - 1)) {
+      item = storage[stackSize - 1];
+      delete storage[stackSize - 1];
+      stackSize--;
+    }
+
+    return item;
   };
 
   someInstance.size = function() {
