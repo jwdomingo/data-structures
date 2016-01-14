@@ -4,13 +4,20 @@ var Tree = function(value) {
 
   // your code here
   newTree.children = null;  // fix me
-
+  extend(newTree, treeMethods);
   return newTree;
+};
+
+var extend = function(to, from){
+  for (var key in from) {
+    to[key] = from[key];
+  }
 };
 
 var treeMethods = {};
 
 treeMethods.addChild = function(value) {
+
 };
 
 treeMethods.contains = function(target) {
