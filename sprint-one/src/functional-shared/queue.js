@@ -3,6 +3,11 @@ var Queue = function() {
   // but try not not reference your old code in writing the new style.
 };
 
+var extend = function(to, from){
+  for (var item in from) {
+    to[item] = from[item];
+  }
+};
 var queueMethods = {};
 
 
