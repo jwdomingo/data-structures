@@ -14,6 +14,14 @@ var extend = function(to, from){
   }
 };
 
-var queueMethods = {};
+var queueMethods = {
+  enqueue: function(val){
+    this.storage[this.queueSize] = val;
+    this.queueSize++;
+  },
+  size: function(){
+    return this.queueSize;
+  }
+};
 
 
