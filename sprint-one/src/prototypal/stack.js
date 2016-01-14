@@ -12,6 +12,14 @@ var stackMethods = {
     this.storage[this.stackSize] = val;
     this.stackSize++;
   },
+  pop: function() {
+    if (this.stackSize > 0) {
+      var aux = this.storage[this.stackSize - 1];
+      delete this.storage[this.stackSize - 1];
+      this.stackSize--;
+      return aux;
+    }
+  },
   size: function() {
     return this.stackSize;
   }
