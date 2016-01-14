@@ -6,3 +6,7 @@ var Stack = function() {
   this.stackSize = 0;
 };
 
+Stack.prototype.size = function() {
+  return this.stackSize;
+}
+
