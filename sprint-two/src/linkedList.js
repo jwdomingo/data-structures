@@ -11,7 +11,7 @@ var LinkedList = function() {
       list.tail.next = Node(value);
       list.tail = list.tail.next;
     }
-};
+  };
 
   list.removeHead = function() {
     var oldHead = list.head;
