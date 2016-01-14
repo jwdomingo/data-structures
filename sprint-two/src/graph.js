@@ -1,18 +1,29 @@
-
-
 // ------------------------
 // Instantiate a new graph
 var Graph = function() {
+  this.nodes = [];
+};
+
+var GraphNode = function(value) {
+  this.value = value;
+  this.edges = [];
 };
 
 // ------------------------
 // Add a node to the graph, passing in the node's value.
 Graph.prototype.addNode = function(node) {
+  this.nodes.push(new GraphNode(node));
 };
 
 // ------------------------
 // Return a boolean value indicating if the value passed to contains is represented in the graph.
 Graph.prototype.contains = function(node) {
+  for (var i = 0; i < this.nodes.length; i++) {
+    if (this.nodes[i].value === node) {
+      return true;
+    }
+  }
+  return false;
 };
 
 // ------------------------
@@ -43,5 +54,3 @@ Graph.prototype.forEachNode = function(cb) {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
-
-
