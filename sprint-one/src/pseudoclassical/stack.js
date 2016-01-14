@@ -10,3 +10,7 @@ Stack.prototype.size = function() {
   return this.stackSize;
 }
 
+Stack.prototype.push = function(val) {
+  this.storage[this.stackSize] = val;
+  this.stackSize++;
+}
