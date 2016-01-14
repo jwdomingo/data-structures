@@ -9,3 +9,7 @@ Queue.prototype.size = function(){
   return this.queueSize;
 };
 
+Queue.prototype.enqueue = function(val){
+  this.storage[this.queueSize] = val;
+  this.queueSize++;
+};
