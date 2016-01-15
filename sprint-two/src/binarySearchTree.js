@@ -21,7 +21,14 @@ var BinarySearchTree = function(value) {
   };
 
   newBST.contains = function (value){
-
+    if (value === newBST.value) {
+      return true;
+    } else if (value < newBST.value && newBST.left) {
+      return newBST.left.contains(value);
+    } else if (value > newBST.value && newBST.right){
+      return newBST.right.contains(value);
+    }
+    return false;
   };
 
   newBST.depthFirstLog = function (value){
