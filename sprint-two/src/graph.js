@@ -26,9 +26,6 @@ Graph.prototype.contains = function(node) {
 // Removes a node from the graph.
 Graph.prototype.removeNode = function(node) {
   if (this.contains(node)) {
-    // if has edges 
-      // loop through all nodes to find connections and delete 
-    // delete node
     delete this.nodes[node];
   }
 };
@@ -60,6 +57,9 @@ Graph.prototype.removeEdge = function(fromNode, toNode) {
 // ------------------------
 // Pass in a callback which will be executed on each node of the graph.
 Graph.prototype.forEachNode = function(cb) {
+  for (var node in this.nodes) {
+    cb(node);
+  }
 };
 
 /*
