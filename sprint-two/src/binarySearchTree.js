@@ -31,8 +31,14 @@ var BinarySearchTree = function(value) {
     return false;
   };
 
-  newBST.depthFirstLog = function (value){
-
+  newBST.depthFirstLog = function (cb){
+    cb(newBST.value);
+    if (newBST.left) {
+      newBST.left.depthFirstLog(cb);
+    }
+    if (newBST.right) {
+      newBST.right.depthFirstLog(cb);
+    }
   };
 
   return newBST; 
