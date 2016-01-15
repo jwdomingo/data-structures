@@ -5,11 +5,19 @@ var BinarySearchTree = function(value) {
   newBST.right = null;
 
   newBST.insert = function (value){
-  // traverse tree recursively 
-     //start at value, go left or right
-  // if (.value < value) {
-
-  // }
+    if (value < newBST.value) {
+      if (newBST.left) {
+        newBST.left.insert(value);
+      } else {
+        newBST.left = BinarySearchTree(value);
+      } 
+    } else {
+      if (newBST.right) {
+        newBST.right.insert(value);
+      } else {
+        newBST.right = BinarySearchTree(value);
+      }
+    }
   };
 
   newBST.contains = function (value){
