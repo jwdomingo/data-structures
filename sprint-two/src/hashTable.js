@@ -24,14 +24,23 @@ HashTable.prototype.insert = function(k, v) {
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  return this._storage.get(index).filter(function(tuple){
+  
+  var test = this._storage.get(index).filter(function(tuple){
     return tuple[0] === k;
-  })[0][1];
+  })[0];
+  
+  return test ? test[1] : undefined;
 };
 
 HashTable.prototype.remove = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  delete this._storage.get(index)[k];
+  var bucket = this._storage.get(index);
+  for (var i = 0; i < bucket.length; i++) {
+    if (bucket[i][0] === k) {
+      bucket.splice(i, 1);
+      break;
+    }
+  }
 };
 
 /*
