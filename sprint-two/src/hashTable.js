@@ -4,56 +4,70 @@ var HashTable = function() {
   this._storage = LimitedArray(this._limit);
 };
 
+HashTable.prototype.resize = function(factor) {
+  var oldStorage = this._storage;
+  this._limit = Math.floor(this._limit * factor);
+  this._storage = LimitedArray(this._limit);
+  var self = this;
+  var index;
+
+  oldStorage.each(function(bucket){
+    if (bucket) {
+      for (var i = 0; i < bucket.length; i++) {
+        self.insert(bucket[i][0], bucket[i][1]);
+      }
+    }
+  });
+};
+
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var bucket = [];
   
-  if (this._size >= 0.75 * this._limit) {
-    // Create new limited array of size double this._limit
-
-    this._oldStorage = this._storage;
-    this._limit *= 2;
-    this._storage = LimitedArray(this._limit);
-
-    // Extract all tuples
-
-    var self = this;
-    this._oldStorage.each(function(bucket){
-      if (bucket) {
-        for (var key in bucket) {
-          var tuple = bucket[key];
-          index = getIndexBelowMaxForKey(tuple[0], this._limit);
-          self._storage.set(index, tuple);
-        }
-      }
-    });
-
-    // // Rehash each tuple and insert in new, doubled limted array
-    // dereference old LimitedArray from this._storage and point to new
-  }
-  
   if (this._storage.get(index) === undefined) {
     bucket.push([k, v]);
     this._storage.set(index, bucket);
+    this._size++;
   } else {
     bucket = this._storage.get(index);
+    var replaced = false;
+
     for (var i = 0; i < bucket.length; i++) {
       if (bucket[i][0] === k) {
         bucket[i][1] = v;
-        return;
+        replaced = true;
       }
     }
-    bucket.push([k, v]);
+
+    if (!replaced) {
+      bucket.push([k, v]);
+      this._storage.set(index, bucket);
+      this._size++;
+    }
   }
-  this._size++;
+  
+  //double array size
+  if (this._size > (0.75 * this._limit)) {
+    this.resize(2);
+  }
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  var test = this._storage.get(index).filter(function(tuple){
-    return tuple[0] === k;
-  })[0];
-  return test ? test[1] : undefined;
+  if (this._storage.get(index) === undefined) {
+    console.log('limit: ', this._limit);
+    console.log('k:',k);
+    console.log('index:',index);
+    console.log('this._storage.get(index):',this._storage.get(index));
+  }
+
+  if (this._storage.get(index)) {
+    var ifKeyExists = this._storage.get(index).filter(function(tuple){
+      return tuple[0] === k;
+    })[0];  
+  }
+  
+  return ifKeyExists ? ifKeyExists[1] : undefined;
 };
 
 HashTable.prototype.remove = function(k) {
@@ -62,8 +76,14 @@ HashTable.prototype.remove = function(k) {
   for (var i = 0; i < bucket.length; i++) {
     if (bucket[i][0] === k) {
       bucket.splice(i, 1);
+      this._size--;
       break;
     }
+  }
+  this._storage.set(index, bucket);
+
+  if (this._size <= 0.25 * this._limit) {
+    this.resize(0.5);
   }
 };
 
