@@ -8,13 +8,30 @@ HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var bucket = [];
   
-  if (this._size > 0.75 * this._limit) {
+  if (this._size >= 0.75 * this._limit) {
     // Create new limited array of size double this._limit
+
+    this._oldStorage = this._storage;
+    this._limit *= 2;
+    this._storage = LimitedArray(this._limit);
+
     // Extract all tuples
-    // Rehash each tuple and insert in new, doubled limted array
+
+    var self = this;
+    this._oldStorage.each(function(bucket){
+      if (bucket) {
+        for (var key in bucket) {
+          var tuple = bucket[key];
+          index = getIndexBelowMaxForKey(tuple[0], this._limit);
+          self._storage.set(index, tuple);
+        }
+      }
+    });
+
+    // // Rehash each tuple and insert in new, doubled limted array
     // dereference old LimitedArray from this._storage and point to new
   }
-
+  
   if (this._storage.get(index) === undefined) {
     bucket.push([k, v]);
     this._storage.set(index, bucket);
