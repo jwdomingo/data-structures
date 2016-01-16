@@ -1,11 +1,19 @@
 var HashTable = function() {
   this._limit = 8;
+  this._size = 0;
   this._storage = LimitedArray(this._limit);
 };
 
 HashTable.prototype.insert = function(k, v) {
   var index = getIndexBelowMaxForKey(k, this._limit);
   var bucket = [];
+  
+  if (this._size > 0.75 * this._limit) {
+    // Create new limited array of size double this._limit
+    // Extract all tuples
+    // Rehash each tuple and insert in new, doubled limted array
+    // dereference old LimitedArray from this._storage and point to new
+  }
 
   if (this._storage.get(index) === undefined) {
     bucket.push([k, v]);
@@ -20,15 +28,14 @@ HashTable.prototype.insert = function(k, v) {
     }
     bucket.push([k, v]);
   }
+  this._size++;
 };
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-  
   var test = this._storage.get(index).filter(function(tuple){
     return tuple[0] === k;
   })[0];
-  
   return test ? test[1] : undefined;
 };
 
